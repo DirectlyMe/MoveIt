@@ -1,0 +1,9 @@
+.root {
+    -fx-background-color: blue;
+}
+.label {
+    -fx-font-size: 20;
+}
+#helloWorld {
+    -fx-font-color: orange;
+}
