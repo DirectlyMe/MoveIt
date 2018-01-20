@@ -13,7 +13,6 @@ public class FileParser {
     private PrintWriter mPrintWriter;
     private BufferedReader mBufferReader;
     private File mFile;
-    private UserSettings settings;
 
     private boolean fileExists;
 

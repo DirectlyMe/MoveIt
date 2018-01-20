@@ -1,0 +1,9 @@
+Activity Run
+StartTime 1.0
+EndTime 4.0
+Activity Jump
+StartTime 2.0
+EndTime 5.0
+Activity Shoot
+StartTime 3.0
+EndTime 6.0

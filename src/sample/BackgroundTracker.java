@@ -1,5 +1,6 @@
 package sample;
 
+import java.awt.*;
 import java.util.Calendar;
 
 public class BackgroundTracker implements Runnable {
@@ -8,9 +9,17 @@ public class BackgroundTracker implements Runnable {
     private Calendar calendar;
     private int hour;
     private int minute;
-    public boolean active;
+    private boolean active;
+    private TrayIconNotification tin;
 
     public BackgroundTracker(Activity[] activities) {
+
+        try {
+            tin = TrayIconNotification.get();
+        }
+        catch (AWTException ex) {
+            ex.printStackTrace();
+        }
 
         userActivities = activities;
         active = false;
@@ -23,16 +32,27 @@ public class BackgroundTracker implements Runnable {
 
         System.out.println("background thread running");
 
-        while (active) {
+        //while (active) {
 
-            getTime();
+            try {
 
-            for (Activity activity : userActivities) {
-                if (hour > activity.startTime && hour < activity.endTime) {
+                getTime();
 
+                tin.displayTray(userActivities[0]);
+
+                /*for (Activity activity : userActivities) {
+                    if (hour > activity.startTime && hour < activity.endTime) {
+                        tin.displayTray(activity);
+                    }
                 }
+                */
+
+                Thread.sleep(5000);
             }
-        }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        //}
 
     }
 
