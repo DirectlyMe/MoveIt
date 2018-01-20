@@ -2,24 +2,15 @@ package sample;
 
 public class UserSettings {
 
-    private String[] mActivityRecommendations;
-    private String[] mActivityTimes;
-    private String userSettingsFilePath;
+    private static Activity[] activities;
 
-    public String[] getActivityRecommendations() {
-        return mActivityRecommendations;
+
+    public static Activity[] getActivities() {
+        return activities;
     }
 
-    public void setActivityRecommendations(String[] mActivityRecommendations) {
-        this.mActivityRecommendations = mActivityRecommendations;
-    }
-
-    public String[] getActivityTimes() {
-        return mActivityTimes;
-    }
-
-    public void setActivityTimes(String[] mActivityTimes) {
-        this.mActivityTimes = mActivityTimes;
+    public void setActivities(Activity[] activities) {
+        this.activities = activities;
     }
 
 }

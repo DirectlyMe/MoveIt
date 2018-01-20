@@ -1,6 +1,0 @@
-Activity run
-Time 1
-Activity jump
-Time 2
-Activity swim
-Time 3

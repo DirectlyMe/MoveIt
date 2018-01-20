@@ -1,8 +1,8 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -10,59 +10,74 @@ import java.io.IOException;
 
 public class Controller {
 
-    private UserSettings settings;
 
+
+    private UserSettings settings;
+    private FileParser parser;
+
+    public Button mButtonSave;
     public TextField mTextFieldUserActivity1;
     public TextField mTextFieldUserActivity2;
-    public Button mButtonSave;
     public TextField mTextFieldUserActivity3;
-    public TextField mTextFieldActivityTime1;
-    public TextField mTextFieldActivityTime2;
-    public TextField mTextFieldActivityTime3;
+    public TextField mTextFieldActivityStartTime1;
+    public TextField mTextFieldActivityStartTime2;
+    public TextField mTextFieldActivityStartTime3;
+    public TextField mTextFieldActivityEndTime1;
+    public TextField mTextFieldActivityEndTime2;
+    public TextField mTextFieldActivityEndTime3;
 
-    private String[] mActivities;
-    private String[] mActivityTimes;
+    private Activity[] mActivities;
     private TextField[] mActivityTextFields;
-    private TextField[] mTimeTextFields;
+    private TextField[] mTimeStartTextFields;
+    private TextField[] mTimeEndTextFields;
 
 
-    public Controller() {
-
+    @FXML
+    public void initialize() {
         init();
-
     }
 
-    public void init() {
+
+    private void init() {
         mActivityTextFields = new TextField[3];
-        mTimeTextFields = new TextField[3];
-        mActivities = new String[3];
-        mActivityTimes = new String[3];
+        mTimeStartTextFields = new TextField[3];
+        mTimeEndTextFields = new TextField[3];
 
         mActivityTextFields[0] = mTextFieldUserActivity1;
         mActivityTextFields[1] = mTextFieldUserActivity2;
         mActivityTextFields[2] = mTextFieldUserActivity3;
 
-        mTimeTextFields[0] = mTextFieldActivityTime1;
-        mTimeTextFields[1] = mTextFieldActivityTime2;
-        mTimeTextFields[2] = mTextFieldActivityTime3;
+        mTimeStartTextFields[0] = mTextFieldActivityStartTime1;
+        mTimeStartTextFields[1] = mTextFieldActivityStartTime2;
+        mTimeStartTextFields[2] = mTextFieldActivityStartTime3;
+
+        mTimeEndTextFields[0] = mTextFieldActivityEndTime1;
+        mTimeEndTextFields[1] = mTextFieldActivityEndTime2;
+        mTimeEndTextFields[2] = mTextFieldActivityEndTime3;
 
         settings = new UserSettings();
+        setUpUserSettings(settings);
     }
 
     /* If a settings file exists this will read it and fill the settings panel with the current info*/
-    public void setUpUserObj(UserSettings settings) {
-
-        int i = 0;
+    public void setUpUserSettings(UserSettings settings) {
 
         try {
-            FileParser parser = new FileParser();
+            parser = new FileParser();
+
+            if (parser.isFileExists()) {
+                parser.readSettingsFile(parser.isFileExists(), settings);
+                mActivities = settings.getActivities();
+
+                for (int i = 0; i < mActivities.length; i++) {
+                    mActivityTextFields[i].setText(mActivities[i].activityName);
+                    mTimeStartTextFields[i].setText(Double.toString(mActivities[i].startTime));
+                    mTimeEndTextFields[i].setText(Double.toString(mActivities[i].endTime));
+                }
+            }
         }
         catch(IOException ex) {
             ex.getStackTrace();
-        }
-
-        for (String activity : settings.getActivityRecommendations()) {
-
         }
 
     }
@@ -74,20 +89,20 @@ public class Controller {
      */
     public void saveUserSettings(ActionEvent actionEvent) {
 
-
+        mActivities = new Activity[3];
 
         for (int i = 0; i < 3; i++) {
-            mActivities[i] = mActivityTextFields[i].getText();
-            mActivityTimes[i] = mTimeTextFields[i].getText();
+            Activity activity = new Activity(mActivityTextFields[i].getText(),
+                    Double.parseDouble(mTimeStartTextFields[i].getText()),
+                    Double.parseDouble(mTimeEndTextFields[i].getText()));
+            System.out.println(activity.activityName);
+            mActivities[i] = activity;
         }
 
-        settings.setActivityRecommendations(mActivities);
-        settings.setActivityTimes(mActivityTimes);
+        settings.setActivities(mActivities);
 
         try {
-            FileParser parser = new FileParser(settings);
-            parser.writeSettingsFile();
-            parser.readSettingsFile();
+            parser.writeSettingsFile(settings);
         }
         catch(IOException x) {
             System.out.println("File creation failed.");
