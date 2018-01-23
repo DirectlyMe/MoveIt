@@ -103,6 +103,7 @@ public class Controller {
 
         try {
             parser.writeSettingsFile(settings);
+            parser.readSettingsFile(parser.isFileExists(), settings);
         }
         catch(IOException x) {
             System.out.println("File creation failed.");

@@ -46,6 +46,7 @@ public class FileParser {
         }
 
         mPrintWriter.close();
+
     }
 
     /*Reads the settings file and populates the UserSettings object with

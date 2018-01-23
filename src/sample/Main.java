@@ -20,7 +20,7 @@ public class Main extends Application {
             @Override
             public void handle(WindowEvent event) {
                 primaryStage.hide();
-                BackgroundTracker backgroundTracker = new BackgroundTracker(UserSettings.getActivities());
+                BackgroundTracker backgroundTracker = new BackgroundTracker();
                 backgroundTracker.setActive(true);
                 Thread backgroundProcess = new Thread(backgroundTracker);
                 backgroundProcess.start();

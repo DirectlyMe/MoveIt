@@ -1,9 +1,9 @@
 Activity Run
-StartTime 1.0
-EndTime 4.0
+StartTime 12.0
+EndTime 14.0
 Activity Jump
-StartTime 2.0
-EndTime 5.0
+StartTime 14.0
+EndTime 16.0
 Activity Shoot
-StartTime 3.0
-EndTime 6.0
+StartTime 18.0
+EndTime 20.0
