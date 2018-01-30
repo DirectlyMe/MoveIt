@@ -4,8 +4,10 @@ import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
 
 import java.util.Map;
+import java.util.Observable;
 
 public class GlobalKeyboardListener implements Runnable {
+
 
     private boolean run = true;
     public boolean userActive = false;
@@ -21,7 +23,7 @@ public class GlobalKeyboardListener implements Runnable {
         keyboardHook.addKeyListener(new GlobalKeyAdapter() {
             @Override public void keyPressed(GlobalKeyEvent event) {
                 System.out.println(event);
-                userActive = true;
+                setUserActive(true);
                 run = false;
                 if(event.getVirtualKeyCode()==GlobalKeyEvent.VK_ESCAPE)
                     run = false;
@@ -33,7 +35,12 @@ public class GlobalKeyboardListener implements Runnable {
         try {
             while(run) Thread.sleep(128);
         } catch(InterruptedException e) { /* nothing to do here */ }
-        finally { keyboardHook.shutdownHook(); }
+        finally {
+            keyboardHook.shutdownHook(); }
+    }
+
+    public void setUserActive(boolean run) {
+        userActive = run;
     }
 
     public boolean getUserActive() {

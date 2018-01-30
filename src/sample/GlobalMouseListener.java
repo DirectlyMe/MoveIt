@@ -1,16 +1,22 @@
 package sample;
 
 import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
 
-public class GlobalMouseListener {
+public class GlobalMouseListener implements Runnable {
     private static boolean run = true;
     private boolean userActive = false;
 
-    public static void main(String[] args) {
+    public interface CallBack {
+        void setActiveUser(boolean bool);
+    }
+
+    public void run() {
         // might throw a UnsatisfiedLinkError if the native library fails to load or a RuntimeException if hooking fails
         GlobalMouseHook mouseHook = new GlobalMouseHook(); // add true to the constructor, to switch to raw input mode
 
@@ -26,16 +32,26 @@ public class GlobalMouseListener {
                     System.out.println("Both mouse buttons are currenlty pressed!");
             }
             @Override public void mouseReleased(GlobalMouseEvent event)  {
-                System.out.println(event); }
+                userActive = true; }
             @Override public void mouseMoved(GlobalMouseEvent event) {
-                System.out.println(event); }
+                userActive = true; }
             @Override public void mouseWheel(GlobalMouseEvent event) {
-                System.out.println(event); }
+                userActive = true; }
         });
 
         try {
             while(run) Thread.sleep(128);
         } catch(InterruptedException e) { /* nothing to do here */ }
         finally { mouseHook.shutdownHook(); }
+    }
+
+    private void timerMethod() {
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            public void run() {
+
+            }
+        }, );
     }
 }

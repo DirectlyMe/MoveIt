@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class Controller {
     public TextField mTextFieldActivityEndTime1;
     public TextField mTextFieldActivityEndTime2;
     public TextField mTextFieldActivityEndTime3;
+    public ListView mActivityListView;
 
     private Activity[] mActivities;
     private TextField[] mActivityTextFields;

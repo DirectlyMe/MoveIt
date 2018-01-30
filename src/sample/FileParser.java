@@ -56,7 +56,7 @@ public class FileParser {
 
         if (fileExistence) {
 
-            List<Activity> readActivities = new ArrayList<>();
+            List<Activity> readActivities = new ArrayList();
             String fileRead;
             String[] tokenize;
 

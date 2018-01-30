@@ -1,18 +1,20 @@
 package sample;
 
-import jdk.nashorn.internal.objects.Global;
+
 
 import java.awt.*;
-import java.util.Calendar;
+import java.beans.PropertyChangeListener;
+import java.util.*;
+
 
 /*
 Once the program is closed this thread continues to run and check
 for a relevant notification every hour.
  */
-public class BackgroundTracker implements Runnable {
+public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack {
 
     private Activity[] userActivities;
-    private GlobalKeyboardListener keyboardListener;
+    private GlobalMouseListener mouseListener;
     private Calendar calendar;
     private int hour;
     private int minute;
@@ -46,29 +48,36 @@ public class BackgroundTracker implements Runnable {
 
         System.out.println("background thread running");
 
-        keyboardListener.run();
+        Timer timer = new Timer();
 
-        while (active) {
+        timer.schedule(new TimerTask() {
+            public void run() {
+                if (active) {
+                    try {
 
-            try {
+                        getTime();
 
-                getTime();
-
-                for (Activity activity : userActivities) {
-                    if (hour >= activity.startTime && hour <= activity.endTime) {
-                        tin.displayTray(activity);
-                        break;
+                        for (Activity activity : userActivities) {
+                            if (hour >= activity.startTime && hour <= activity.endTime) {
+                                tin.displayTray(activity);
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
-
-
-                Thread.sleep(3600000);
             }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        },
+        360000);
+
+        try {
+            Thread.sleep(5000);
         }
-
+        catch (InterruptedException intEx) {
+            intEx.printStackTrace();
+        }
     }
 
     //gets the time of day
@@ -79,11 +88,12 @@ public class BackgroundTracker implements Runnable {
         minute = calendar.get(Calendar.MINUTE);
     }
 
-    public boolean isActive() {
-        return active;
+    public void setActive(boolean activity) {
+        active = activity;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActiveUser(boolean active) {
+        active = true;
     }
+
 }
