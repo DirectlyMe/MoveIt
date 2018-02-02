@@ -1,6 +1,7 @@
 package sample;
 
-import java.util.Map.Entry;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,34 +10,32 @@ import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 public class GlobalMouseListener implements Runnable {
-    private static boolean run = true;
+    private boolean run = true;
     private boolean userActive = false;
+    private String USERACTIVITY = "userActive";
 
-    public interface CallBack {
-        void setActiveUser(boolean bool);
-    }
+    private PropertyChangeListener listener;
+    private Timer activityTimer;
 
+    //listens for user activity and changes userActive to true if movement is detected.
     public void run() {
-        // might throw a UnsatisfiedLinkError if the native library fails to load or a RuntimeException if hooking fails
-        GlobalMouseHook mouseHook = new GlobalMouseHook(); // add true to the constructor, to switch to raw input mode
 
-        System.out.println("Global mouse hook successfully started, press [middle] mouse button to shutdown. Connected mice:");
-        for(Entry<Long,String> mouse:GlobalMouseHook.listMice().entrySet())
-            System.out.format("%d: %s\n", mouse.getKey(), mouse.getValue());
+        System.out.println("Mouse listener running");
+
+        noActivityTimer();
+
+        GlobalMouseHook mouseHook = new GlobalMouseHook();
 
         mouseHook.addMouseListener(new GlobalMouseAdapter() {
             @Override public void mousePressed(GlobalMouseEvent event)  {
-                System.out.println(event);
-                if((event.getButtons()&GlobalMouseEvent.BUTTON_LEFT)!=GlobalMouseEvent.BUTTON_NO
-                        && (event.getButtons()&GlobalMouseEvent.BUTTON_RIGHT)!=GlobalMouseEvent.BUTTON_NO)
-                    System.out.println("Both mouse buttons are currenlty pressed!");
+                changeUserActive(true);
             }
             @Override public void mouseReleased(GlobalMouseEvent event)  {
-                userActive = true; }
+                changeUserActive(true); }
             @Override public void mouseMoved(GlobalMouseEvent event) {
-                userActive = true; }
+                changeUserActive(true); }
             @Override public void mouseWheel(GlobalMouseEvent event) {
-                userActive = true; }
+                changeUserActive(true); }
         });
 
         try {
@@ -45,13 +44,32 @@ public class GlobalMouseListener implements Runnable {
         finally { mouseHook.shutdownHook(); }
     }
 
-    private void timerMethod() {
-        Timer timer = new Timer();
+    private void noActivityTimer() {
+        System.out.println("noActivityTimer started");
+        activityTimer = new Timer();
 
-        timer.schedule(new TimerTask() {
+        activityTimer.schedule(new TimerTask() {
             public void run() {
-
+                changeUserActive(false);
             }
-        }, );
+        }, 130000);
+    }
+
+    //accepts a boolean that determines user activity then passes it to notifyListeners method
+    private void changeUserActive(boolean activity) {
+        notifyListeners(this,
+                USERACTIVITY,
+                this.userActive,
+                this.userActive = activity);
+    }
+
+    //reports changes to listener
+    private void notifyListeners(Object object, String property, boolean oldValue, boolean newValue) {
+        listener.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+    }
+
+    //accepts a listener to report changes to
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listener = newListener;
     }
 }

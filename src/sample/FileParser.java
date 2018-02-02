@@ -39,9 +39,7 @@ public class FileParser {
 
         for (int i = 0; i < mUserActivities.length; i++) {
             mPrintWriter.println("Activity " + mUserActivities[i].activityName);
-            System.out.println("Activity " + mUserActivities[i].activityName);
             mPrintWriter.println("StartTime " + mUserActivities[i].startTime);
-            System.out.println("StartTime " + mUserActivities[i].startTime);
             mPrintWriter.println("EndTime " + mUserActivities[i].endTime);
         }
 
@@ -98,9 +96,6 @@ public class FileParser {
                     }
 
                     activity = new Activity(nameStr, start, end);
-                    System.out.println(activity.activityName);
-                    System.out.println(activity.startTime);
-                    System.out.println(activity.endTime);
 
                     readActivities.add(activity);
 

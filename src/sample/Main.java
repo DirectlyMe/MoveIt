@@ -21,9 +21,7 @@ public class Main extends Application {
             public void handle(WindowEvent event) {
                 primaryStage.hide();
                 BackgroundTracker backgroundTracker = new BackgroundTracker();
-                backgroundTracker.setActive(true);
-                Thread backgroundProcess = new Thread(backgroundTracker);
-                backgroundProcess.start();
+                backgroundTracker.run();
             }
         });
     }

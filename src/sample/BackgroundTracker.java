@@ -3,6 +3,7 @@ package sample;
 
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
@@ -11,7 +12,7 @@ import java.util.*;
 Once the program is closed this thread continues to run and check
 for a relevant notification every hour.
  */
-public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack {
+public class BackgroundTracker implements Runnable, PropertyChangeListener {
 
     private Activity[] userActivities;
     private GlobalMouseListener mouseListener;
@@ -22,7 +23,8 @@ public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack
     private TrayIconNotification tin;
 
     /*
-    Constructor provides a single instance of TrayIconNotification, sets activities array
+    Constructor provides a single instance of TrayIconNotification, an instance of
+    globalmouselistener, sets activities array
     and initializes active
     */
     public BackgroundTracker() {
@@ -38,6 +40,11 @@ public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack
         active = false;
         System.out.println("background thread initialized.");
 
+        mouseListener = new GlobalMouseListener();
+        mouseListener.addChangeListener(this);
+
+
+
     }
 
     /*
@@ -49,9 +56,9 @@ public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack
         System.out.println("background thread running");
 
         Timer timer = new Timer();
-
-        timer.schedule(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
+                System.out.println("Activity Timer ran");
                 if (active) {
                     try {
 
@@ -70,30 +77,23 @@ public class BackgroundTracker implements Runnable, GlobalMouseListener.CallBack
                 }
             }
         },
-        360000);
+        3000, 360000);
 
-        try {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException intEx) {
-            intEx.printStackTrace();
-        }
+        mouseListener.run();
+
     }
 
     //gets the time of day
     private void getTime() {
         calendar = Calendar.getInstance();
 
-        this.hour = calendar.get(Calendar.HOUR_OF_DAY);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
     }
 
-    public void setActive(boolean activity) {
-        active = activity;
+    public void propertyChange(PropertyChangeEvent event) {
+        active = (boolean) event.getNewValue();
     }
 
-    public void setActiveUser(boolean active) {
-        active = true;
-    }
 
 }
