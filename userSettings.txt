@@ -1,9 +1,9 @@
-Activity Run
-StartTime 12.0
-EndTime 14.0
-Activity Jump
-StartTime 14.0
-EndTime 16.0
-Activity Shoot
-StartTime 18.0
-EndTime 20.0
+Activity Walk Cat
+StartTime 12
+EndTime 14
+Activity Read
+StartTime 14
+EndTime 17
+Activity Meditate
+StartTime 8
+EndTime 10

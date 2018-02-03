@@ -37,10 +37,10 @@ public class FileParser {
 
         mPrintWriter = new PrintWriter(userSettingsFilePath);
 
-        for (int i = 0; i < mUserActivities.length; i++) {
-            mPrintWriter.println("Activity " + mUserActivities[i].activityName);
-            mPrintWriter.println("StartTime " + mUserActivities[i].startTime);
-            mPrintWriter.println("EndTime " + mUserActivities[i].endTime);
+        for (Activity activity : mUserActivities) {
+            mPrintWriter.println("Activity " + activity.getActivityName());
+            mPrintWriter.println("StartTime " + activity.getStartTime());
+            mPrintWriter.println("EndTime " + activity.getEndTime());
         }
 
         mPrintWriter.close();
@@ -67,8 +67,8 @@ public class FileParser {
 
                     StringBuilder name;
                     String nameStr = "";
-                    double start = 0;
-                    double end = 0;
+                    int start = 0;
+                    int end = 0;
                     Activity activity;
 
                     tokenize = fileRead.split(" ");
@@ -85,13 +85,13 @@ public class FileParser {
                         tokenize = fileRead.split(" ");
 
                         if (tokenize[0].equals("StartTime")) {
-                            start = Double.parseDouble(tokenize[1]);
+                            start = Integer.parseInt(tokenize[1]);
                             System.out.println(start);
                             fileRead = mBufferReader.readLine();
                             tokenize = fileRead.split(" ");
                         }
                         if (tokenize[0].equals("EndTime")) {
-                            end = Double.parseDouble(tokenize[1]);
+                            end = Integer.parseInt(tokenize[1]);
                         }
                     }
 

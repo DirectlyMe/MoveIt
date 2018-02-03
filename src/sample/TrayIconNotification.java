@@ -44,7 +44,7 @@ public class TrayIconNotification {
         trayIcon.setToolTip("System Tray Icon");
 
         tray.add(trayIcon);
-        trayIcon.displayMessage("Move It!", currentActivity.activityName, MessageType.INFO);
+        trayIcon.displayMessage("Move It!", currentActivity.getActivityName(), MessageType.INFO);
     }
 
 }

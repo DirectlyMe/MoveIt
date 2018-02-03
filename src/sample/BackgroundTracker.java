@@ -65,7 +65,7 @@ public class BackgroundTracker implements Runnable, PropertyChangeListener {
                         getTime();
 
                         for (Activity activity : userActivities) {
-                            if (hour >= activity.startTime && hour <= activity.endTime) {
+                            if (hour >= activity.getStartTime() && hour <= activity.getEndTime()) {
                                 tin.displayTray(activity);
                                 break;
                             }
