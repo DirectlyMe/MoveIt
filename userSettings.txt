@@ -1,9 +1,9 @@
-Activity Walk Cat
+Activity Go for a walk
 StartTime 12
-EndTime 14
+EndTime 15
+Activity Work out
+StartTime 9
+EndTime 12
 Activity Read
-StartTime 14
-EndTime 17
-Activity Meditate
-StartTime 8
-EndTime 10
+StartTime 16
+EndTime 20

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moveIt.Controller">
+   <children>
+      <HBox layoutX="1.0" layoutY="1.0" prefHeight="400.0" prefWidth="601.0">
+         <children>
+            <AnchorPane prefHeight="400.0" prefWidth="300.0">
+               <children>
+                  <Button fx:id="save_button" layoutX="74.0" layoutY="293.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Save" />
+                  <TextField fx:id="activity_name_text_box" layoutX="74.0" layoutY="78.0" prefHeight="25.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="start_time_choice_box" layoutX="74.0" layoutY="132.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="end_time_choice_box" layoutX="74.0" layoutY="188.0" prefWidth="150.0" />
+                  <Label layoutX="122.0" layoutY="115.0" text="Start Time" />
+                  <Label layoutX="124.0" layoutY="170.0" text="End Time" />
+                  <Button fx:id="add_button" layoutX="74.0" layoutY="251.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Add" />
+                  <Button fx:id="remove_button" layoutX="167.0" layoutY="251.0" mnemonicParsing="false" text="Remove" />
+                  <Button fx:id="start_button" layoutX="74.0" layoutY="329.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Start" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="405.0" prefWidth="306.0">
+               <children>
+                  <TableView fx:id="table_view_activities" layoutX="52.0" layoutY="23.0" prefHeight="377.0" prefWidth="304.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
+                    <columns>
+                      <TableColumn fx:id="name_table_col" prefWidth="130.0" text="Name" />
+                      <TableColumn fx:id="start_time_table_col" prefWidth="95.0" text="Start Time" />
+                        <TableColumn fx:id="end_time_table_col" minWidth="0.0" prefWidth="78.0" text="End Time" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <MenuBar prefHeight="25.0" prefWidth="602.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="close_menu_item" mnemonicParsing="false" text="Close" />
+                  <Menu fx:id="frequency_menu_item" mnemonicParsing="false" text="Notification Frequency">
+                    <items>
+                        <RadioMenuItem fx:id="frequency_30min" mnemonicParsing="false" text="30 Minutes" />
+                        <RadioMenuItem fx:id="frequency_1hour" mnemonicParsing="false" text="1 Hour" />
+                        <RadioMenuItem fx:id="frequency_2hours" mnemonicParsing="false" text="2 Hours" />
+                    </items>
+                  </Menu>
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
